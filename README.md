@@ -158,6 +158,48 @@ Dependencies on Third-Party Services/APIs
 -	Notification Library: To schedule daily or weekly mileage update notifications, ensuring users are reminded of their vehicle maintenance tasks.
 -	Device Calendar Library: For integrating with the device’s calendar to set reminders for maintenance tasks.
 
+## Challenges and Open Questions
+
+### Challenges
+1.	Background Reminders
+Challenge: Ensuring that reminders continue to work even if the app is not used for an extended period.
+Solution: Use the device_calendar package to create calendar events that serve as reminders. This way, reminders are managed by the phone's native calendar app, which operates independently of your app's state.
+2.	Tracking Multiple Components in a Task
+Challenge: Managing tasks that involve multiple components and determining how many steps to allow in a task.
+Solution: Allow users to break tasks into sub-tasks or components. Set a reasonable limit (e.g., 10 steps) based on user feedback and usability testing. Gather data on typical user behavior to identify common patterns and adjust the maximum step count accordingly.
+3.	Storage Size for Maintenance Data
+Challenge: Determining the maximum size of maintenance data stored on the device.
+Solution: Conduct performance testing to assess the impact of data size on app responsiveness. Implement data pruning strategies to remove old logs after a certain period or when the storage limit is reached, ensuring that only the most relevant data is retained.
+4.	Report Storage Location
+Challenge: Deciding where to store reports on iOS and Android devices.
+Solution: Store reports locally within the app’s internal storage for both platforms. For Android, use the app’s private storage, and for iOS, use the app’s document directory. Provide an option for users to export reports to their preferred file formats (e.g., PDF, CSV) for external access.
+5.	Reminder Functionality When App is Not Running
+  Challenge: Ensuring reminders(for e.g.: daily milage update notification) function properly when the app is not active.
+  Solution: Use local notifications from the flutter_local_notifications package to schedule daily reminders, which can be set even if the app is not running. Ensure users grant the necessary permissions for notifications during the app onboarding process.
+
+### Open Questions
+1.	Task Step Limitations:
+How many steps can realistically be recorded in a task without impacting performance? Are there hardware limitations that affect this?
+2.	Notification Behavior:
+How do we ensure that notifications work reliably when the app is not running? What are the best practices for managing this? Is using proposed packages and methods enough? What if reminder gets deleted on Calander?
+3.	Data Write Frequency:
+How often should the app write data directly to disk? What are the implications if the app crashes during a write operation?
+4.	Using Firebase Analytics:
+What specific events and metrics should we collect to measure user engagement and app performance? How can we effectively integrate Firebase Analytics into the app? Is authentication required for Firebase Analytics, and how should it be handled to ensure user data privacy?
+5.	User Permissions:
+What are the best strategies to effectively request user permissions for notifications and calendar access, ensuring users feel comfortable granting these permissions?
+Addressing these challenges and questions will help in refining the app's functionality and enhancing user experience. Gathering feedback from peers and users can provide additional insights to navigate these issues effectively.
+
+## References:
+American Automobile Association (AAA). (2021). "AAA Survey Reveals Most Drivers Forget Routine Vehicle Maintenance." Retrieved from AAA Website.
+
+Pew Research Center. (2021). "YouTube's Role in DIY Learning: A Study of Online Learning Trends." Retrieved from Pew Research Center.
+
+American Automobile Association (AAA). (2021). "The Cost of Vehicle Maintenance: A Report on Time and Expenses." Retrieved from AAA Website.
+
+Car Care Council. (2021). "The Importance of Regular Vehicle Maintenance." Retrieved from Car Care CouncilWebsite.
+
+RepairPal. (2020). "Consumer Perceptions of Vehicle Maintenance: A Survey of Car Owners." Retrieved from RepairPal Website.
 
 
 
