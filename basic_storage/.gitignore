@@ -1,0 +1,74 @@
+# Flutter/Dart related
+.dart_tool/
+.packages
+.pub/
+build/
+flutter_export_environment.sh
+generated_plugin_registrant.dart
+
+# iOS-specific
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/.symlinks/
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Android-specific
+android/.gradle/
+android/app/*.iml
+android/app/build/
+android/local.properties
+android/gradle/
+android/app/src/main/res/debug/
+android/app/src/main/res/release/
+android/app/src/main/assets/
+android/app/src/debug/
+
+# VS Code
+.vscode/
+
+# IDE settings
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Mac
+.DS_Store
+
+# Linux-specific
+linux/flutter/ephemeral/
+linux/build/
+
+# Windows-specific
+windows/flutter/ephemeral/
+windows/build/
+
+# Web-specific
+web/.dart_tool/
+web/flutter/
+web/build/
+
+# Other build-related files
+build/
+coverage/
+
+# Exclude files that don't represent source code
+*.log
+*.lock
+*.tmp
+*.bak
+
+# User-specific files
+*.swp
+*.swo
+*.swn
+
+# Only include necessary project files
+!lib/
+!assets/
+!pubspec.yaml
+!pubspec.lock
+!test/
+!README.md
