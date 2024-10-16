@@ -203,5 +203,32 @@ RepairPal. (2020). "Consumer Perceptions of Vehicle Maintenance: A Survey of Car
 
 
 
+# Initial Mockup
+
+<img width="958" alt="Screenshot 2024-10-15 at 6 10 28 PM" src="https://github.com/user-attachments/assets/04d74532-79bc-4a06-8fb5-6bf63a0b2173">
+
+### Happy Path for Car Care Log App:
+1.	Open the App: User opens the Car Care Log app on their mobile device (Android or iOS).
+2.	View Dashboard: The dashboard displays an overview of all registered vehicles. User can see a list of cars, with a green, amber, or red status indicating the overall maintenance status (green: no pending tasks, amber: tasks in progress, red: overdue tasks).
+3.	Select a Vehicle: User taps on a specific vehicle they want to manage, taking them to the Car Details view.
+4.	View Maintenance Tasks: On the Car Details page, user sees a list of completed and pending tasks. User selects a task (e.g., "Change Oil") from the list of pending tasks.
+5.	View Task Steps: User is taken to the Task View where they can see task details (e.g., tools needed, parts required). The task is broken down into multiple steps (e.g., "Drain oil", "Remove filter", etc.), and the user views all the steps listed under the task.
+6.	Complete Steps: User begins performing the maintenance task step by step. After completing each step, user taps on the step, marks it as complete and next step.
+7.	Mark Task as Complete: Once all steps are marked as complete, the "Mark Task as Complete" button becomes active. User taps on the "Mark Task as Complete" button. The app records the completion date, mileage, and any notes the user adds about the task.
+8.	Set Automatic Reminders: The app prompts the user to set a reminder for the next instance of the maintenance task based on mileage or time (e.g., "Set reminder for next oil change in 5,000 miles or 6 months"). User accepts or customizes the reminder.
+9.	Review Task in Report: After marking the task as complete, user returns to the Car Details view, where the task status changes to green. User can go to the Report section to see a summary of the task, including tools used, steps completed, and any notes added.
+10.	Return to Dashboard: User returns to the Dashboard view, where the vehicle's status has now changed to green, indicating no pending maintenance tasks.
+ 
+### Key Points of the Happy Path:
+- Smooth onboarding: The user quickly selects their vehicle and logs maintenance tasks with minimal steps.
+- Task tracking: The app helps the user keep a clear record of their vehicle maintenance Step by step.
+- Proactive maintenance: Reminders keep the user ahead of vehicle issues by prompting future tasks based on mileage or time.
+- Confidence: The user gains confidence through organized tracking and completed tasks.
+
+### Success Criteria for initial mock up:
+- Ease of use: Users can log tasks and set reminders intuitively.
+- Task Completion Rate: 80% of users should regularly complete their maintenance tasks and updates.
+- User Retention: At least 70% of users should continue using the app 3 months after downloading due to its simplicity and functionality. User leaves a 5-star review on app store.
+
 
 
