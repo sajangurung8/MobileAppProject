@@ -1,9 +1,5 @@
-# macOS-specific files
+# Ignore mac system files
 .DS_Store
-
-# Ignore build output directories
-/build/
-/out/
 
 # Ignore all file except for source code and resources
 android/
@@ -14,22 +10,6 @@ windows/
 linux/
 web/
 macos/
-
-# Ignore dependency directories
-/ios/Pods/
-/.dart_tool/
-/.packages
-/.flutter-plugins
-/.flutter-plugins-dependencies
-.flutter-plugins
-.flutter-plugins-dependencies
-
-# Flutter project files
-/pubspec.lock
-
-# User-specific IDE config files
-.idea/
-.vscode/
 
 # Miscellaneous
 *.class
