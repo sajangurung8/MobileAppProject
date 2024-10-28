@@ -5,6 +5,16 @@
 /build/
 /out/
 
+# Ignore all file except for source code and resources
+android/
+.idea/
+.dart_tool/
+ios/
+windows/
+linux/
+web/
+macos/
+
 # Ignore dependency directories
 /ios/Pods/
 /.dart_tool/
