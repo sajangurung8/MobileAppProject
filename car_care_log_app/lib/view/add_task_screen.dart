@@ -1,5 +1,5 @@
 // lib/views/add_task_screen.dart
-import 'package:car_care_log_app/model/car_model.dart';
+import 'package:car_care_log_app/model/task.dart';
 import 'package:car_care_log_app/viewmodel/car_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +12,7 @@ class AddTaskScreen extends StatelessWidget {
   final TextEditingController taskNameController = TextEditingController();
   final TextEditingController toolsNeededController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController statusController =TextEditingController();
+  final TextEditingController refrenceController =TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,14 +63,14 @@ class AddTaskScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Status',
+              'Refrence URI',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             TextField(
-              controller: statusController,
+              controller: refrenceController,
               maxLines: 1,
               decoration: const InputDecoration(
-                hintText: 'Enter task status',
+                hintText: 'Refrence Uri',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -82,9 +82,9 @@ class AddTaskScreen extends StatelessWidget {
                     final taskName = taskNameController.text;
                     final tools = toolsNeededController.text;
                     final description = descriptionController.text;
-                    final status = statusController.text;
+                    final refrenceUri = refrenceController.text;
 
-                    var newTask = TaskModel(carId: carId, taskName: taskName, description: description, toolsNeeded: tools, status: status);
+                    var newTask = TaskModel(carId: carId, taskName: taskName, description: description, toolsNeeded: tools, refrenceUrl: refrenceUri, userCreated: true);
 
                     Provider.of<CarViewModel>(context, listen: false).addTask(newTask);
 
