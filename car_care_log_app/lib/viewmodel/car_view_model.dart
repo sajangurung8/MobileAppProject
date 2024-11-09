@@ -1,7 +1,8 @@
 // lib/view_models/car_view_model.dart
+import 'package:car_care_log_app/model/car.dart';
+import 'package:car_care_log_app/model/task.dart';
 import 'package:flutter/material.dart';
 import '../services/database_service.dart';
-import '../model/car_model.dart';
 
 class CarViewModel extends ChangeNotifier {
   final DatabaseService _databaseService = DatabaseService();
