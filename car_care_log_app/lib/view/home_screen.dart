@@ -52,19 +52,6 @@ class HomeScreen extends StatelessWidget {
               itemCount: carViewModel.cars.length,
               itemBuilder: (context, index) {
                 final car = carViewModel.cars[index];
-                Color statusColor;
-
-                // Determine the status color based on car status
-                switch (car.status) {
-                  case 'due':
-                    statusColor = Colors.red;
-                    break;
-                  case 'in_progress':
-                    statusColor = Colors.amber;
-                    break;
-                  default:
-                    statusColor = Colors.green;
-                }
                 return InkWell(
                     onTap: () {
                       Navigator.push(
@@ -108,14 +95,6 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: CircleAvatar(
-                              radius: 10,
-                              backgroundColor: statusColor,
                             ),
                           ),
                         ],
