@@ -4,6 +4,7 @@ import 'package:car_care_log_app/view/add_task_screen.dart';
 import 'package:car_care_log_app/view/car_info_screen.dart';
 import 'package:car_care_log_app/view/reminder_screen.dart';
 import 'package:car_care_log_app/view/report_screen.dart';
+import 'package:car_care_log_app/viewmodel/reminder_view_model.dart';
 import 'package:car_care_log_app/viewmodel/task_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CarViewModel()..loadCars()),
-        ChangeNotifierProvider(create: (context) => TaskViewModel())
+        ChangeNotifierProvider(create: (context) => TaskViewModel()),
+        ChangeNotifierProvider(create: (_) => ReminderViewModel())
       ],
       child: MyApp(),
     ),
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
         '/addCarScreen': (context) => AddCarScreen(), 
         '/carInfoScreen': (context) => CarInfoScreen(carId: ModalRoute.of(context)!.settings.arguments as int),
         '/addTaskScreen': (context) => AddTaskScreen(carId: ModalRoute.of(context)!.settings.arguments as int),
-        '/reminder': (context) => const ReminderScreen(),
+        '/reminder': (context) => ReminderScreen(),
         '/report':(context) => const ReportScreen()
       },
     );
