@@ -91,7 +91,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen>
         final task = snapshot.data!;
         return Scaffold(
           appBar: AppBar(
-            title: Text('${task.taskName} Info'),
+            title: Text('Task Information'),
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -115,7 +115,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen>
                 ),
                 const Divider(),
                 const Text(
-                  'Watch Reference Video:',
+                  'Reference Video:',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
