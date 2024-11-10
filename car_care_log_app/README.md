@@ -77,3 +77,51 @@ This project is currently in its prototype phase, with screens that have minimal
 
 ### Task info Screen
 <img src="https://github.com/user-attachments/assets/33609605-c18b-4851-89b3-5ef7c7411ab8" width="240" height="500"/>
+
+# Basic Functionality
+
+The Car Care Log app's current version includes essential functionality, as described below.
+
+- Add Car, Task, and Task Steps: Users can add a car, create tasks, and add detailed steps for each task. All data is stored locally on the device.
+- Task Step Navigation: Users can follow tasks step-by-step on the Task Info screen.
+- Reference Video Support: If a reference youtube video url is saved during task creation, users can watch it by clicking the "Watch Video" button on the Task Info screen. This launches the YouTube app if installed or plays the video in the device's default web browser.
+- Reminders Setup: Upon task completion, users can mark the task as complete and set up reminders based on mileage and time. Added reminders are accessible from the Reminders page.
+
+## State Management
+
+The app utilizes appropriate state management with Stateful widgets for individual pages and the overall application. On the Task Info page, if the user navigates to another app or the app goes into an inactive state (e.g., when launching the YouTube app), the user's progress is retained. This ensures that the current step and page state are saved, maintaining a seamless user experience even when switching between apps.
+
+## Remaining Wrok to be completed for next phase
+
+- Mileage Updates and Notifications: Implement a feature that allows users to update the car's mileage and receive push notifications based on the new mileage.
+- Calendar Integration: Add functionality for users to create calendar events in their personal calendar based on reminder dates.
+- Reports Page: Develop a Reports page that provides users with a comprehensive list of required tools to prepare for tasks.
+
+## Home Screen 
+
+<img src="https://github.com/user-attachments/assets/23cb8c4b-42fb-4cdf-ac68-775b0e88e87a" width="240" height="500">
+
+## Car Information Screen
+
+<img src="https://github.com/user-attachments/assets/3863c25a-2b94-4e69-9f25-65f14eff5b7c" width="240" height="500">
+
+## Task Information Screen
+
+<img src="https://github.com/user-attachments/assets/9933ab77-d78c-4406-b228-e40a2642bc5a" width="240" height="500">
+
+## User clicks on Watch video button on previous Screen after few steps
+
+<img src="https://github.com/user-attachments/assets/ddea83d3-8779-48ed-af80-4cb650dfec6c" width="240" height="500">
+
+## User reopens the app after watching video
+
+<img src="https://github.com/user-attachments/assets/c26e830e-6610-4903-9a42-e20e7209b40b" width="240" height="500">
+
+## User Clicks on Mark as Complete on the final step
+
+<img src="https://github.com/user-attachments/assets/370c3f43-9b6e-46d4-bc54-74f386035f94" width="240" height="500">
+
+## Reminders Screen
+
+<img src="https://github.com/user-attachments/assets/d510ebd8-5df7-4dda-8dba-84603d423fae" width="240" height="500">
+
