@@ -1,5 +1,5 @@
 // lib/views/add_car_screen.dart
-import 'package:car_care_log_app/model/car_model.dart';
+import 'package:car_care_log_app/model/car.dart';
 import 'package:car_care_log_app/viewmodel/car_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +7,9 @@ import 'package:provider/provider.dart';
 class AddCarScreen extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _mileageController = TextEditingController();
-  final TextEditingController _statusController = TextEditingController();
+  final TextEditingController _makeController = TextEditingController();
+  final TextEditingController _modelController = TextEditingController();
+  final TextEditingController _yearController = TextEditingController();
 
   AddCarScreen({super.key});
 
@@ -33,6 +35,39 @@ class AddCarScreen extends StatelessWidget {
                 },
               ),
               TextFormField(
+                controller: _makeController,
+                decoration: const InputDecoration(labelText: 'Make'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter car make(For example: Toyota, Honda, etc.)';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _modelController,
+                decoration: const InputDecoration(labelText: 'Model'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter model of your car.';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _yearController,
+                decoration: const InputDecoration(labelText: 'Car Year'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter year of your car.';
+                  }
+                  if (int.tryParse(value) == null) {
+                    return 'Please enter a valid year';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
                 controller: _mileageController,
                 decoration: const InputDecoration(labelText: 'Current Mileage'),
                 keyboardType: TextInputType.number,
@@ -46,32 +81,29 @@ class AddCarScreen extends StatelessWidget {
                   return null;
                 },
               ),
-              TextFormField(
-                controller: _statusController,
-                decoration: const InputDecoration(labelText: 'Status'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter status of this car';
-                  }
-                  return null;
-                },
-              ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (_nameController.text.isNotEmpty &&
                       _mileageController.text.isNotEmpty &&
-                      _statusController.text.isNotEmpty &&
+                      _makeController.text.isNotEmpty &&
+                      _modelController.text.isNotEmpty &&
+                      _yearController.text.isNotEmpty &&
+                      int.tryParse(_yearController.text) != null &&
                       int.tryParse(_mileageController.text) != null) {
                     final carName = _nameController.text;
                     final currentMileage = int.parse(_mileageController.text);
-                    final status = _statusController.text;
+                    final model = _modelController.text;
+                    final make = _makeController.text;
+                    final year = int.parse(_yearController.text);
 
                     // Create a new CarModel object
                     final newCar = CarModel(
                       name: carName,
                       currentMileage: currentMileage,
-                      status: status,
+                      make: make,
+                      model: model,
+                      year: year
                     );
 
                     // Use the CarViewModel to add the new car to the database

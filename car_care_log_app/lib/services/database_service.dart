@@ -1,7 +1,10 @@
 // lib/services/database_service.dart
+import 'package:car_care_log_app/model/reminder.dart';
+import 'package:car_care_log_app/model/step.dart';
+import 'package:car_care_log_app/model/task.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../model/car_model.dart';
+import '../model/car.dart';
 
 class DatabaseService {
   static final DatabaseService _instance = DatabaseService._internal();
@@ -23,13 +26,15 @@ class DatabaseService {
     return openDatabase(
       path,
       version: 1,
-      onCreate: (db, version) {
+      onCreate: (db, version) async {
         db.execute('''
           CREATE TABLE cars (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             currentMileage INTEGER,
-            status TEXT
+            make TEXT,
+            model TEXT,
+            year INTEGER
           )
         ''');
         db.execute('''
@@ -39,7 +44,12 @@ class DatabaseService {
             taskName TEXT,
             description TEXT,
             toolsNeeded TEXT,
-            status TEXT,
+            verifiedManualId INTEGER,
+            userCreated INTEGER,
+            currentStepNumber INTEGER,
+            completedDate TEXT,
+            completedMileage INTEGER,
+            refrenceUrl TEXT,
             FOREIGN KEY(carId) REFERENCES cars(id) ON DELETE CASCADE
           )
         ''');
@@ -49,8 +59,22 @@ class DatabaseService {
             taskId INTEGER,
             stepNumber INTEGER,
             description TEXT,
-            completed INTEGER,
             FOREIGN KEY(taskId) REFERENCES tasks(id) ON DELETE CASCADE
+          )
+        ''');
+        db.execute('''
+          CREATE TABLE reminders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            carId INTEGER,
+            carName TEXT,
+            carMake TEXT,
+            carModel TEXT,
+            carYear INTEGER,
+            carCurrentMileage INTEGER,
+            taskName TEXT,
+            reminderDate TEXT,  -- Store as TEXT to handle SQLite date format
+            reminderMileage INTEGER,
+            FOREIGN KEY(carId) REFERENCES cars(id) ON DELETE CASCADE
           )
         ''');
       },
@@ -60,7 +84,8 @@ class DatabaseService {
   // Method to insert a car
   Future<void> insertCar(CarModel car) async {
     final db = await database;
-    await db.insert('cars', car.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('cars', car.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   // Method to update a car
@@ -96,12 +121,14 @@ class DatabaseService {
 
   Future<void> insertTask(TaskModel task) async {
     final db = await database;
-    await db.insert('tasks', task.toMap(), conflictAlgorithm: ConflictAlgorithm.ignore);
+    await db.insert('tasks', task.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
   Future<List<TaskModel>> getTasksByCarId(int carId) async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('tasks', where: 'carId = ?', whereArgs: [carId]);
+    final List<Map<String, dynamic>> maps =
+        await db.query('tasks', where: 'carId = ?', whereArgs: [carId]);
     return List.generate(maps.length, (i) => TaskModel.fromMap(maps[i]));
   }
 
@@ -119,70 +146,75 @@ class DatabaseService {
   // Get task by ID
   Future<TaskModel> getTaskById(int taskId) async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('tasks', where: 'id = ?', whereArgs: [taskId]);
+    final List<Map<String, dynamic>> maps =
+        await db.query('tasks', where: 'id = ?', whereArgs: [taskId]);
     return TaskModel.fromMap(maps.first);
   }
 
   // Update task status
   Future<void> updateTaskStatus(int taskId, String status) async {
     final db = await database;
-    await db.update('tasks', {'status': status}, where: 'id = ?', whereArgs: [taskId]);
+    await db.update('tasks', {'status': status},
+        where: 'id = ?', whereArgs: [taskId]);
   }
 
   // Insert a step
   Future<void> insertStep(StepModel step, int taskId) async {
     final db = await database;
-    await db.insert('steps', step.toMap(taskId), conflictAlgorithm: ConflictAlgorithm.ignore);
+    await db.insert('steps', step.toMap(taskId),
+        conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
   // Fetch steps by task ID
   Future<List<StepModel>> getStepsForTask(int taskId) async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('steps', where: 'taskId = ?', whereArgs: [taskId]);
+    final List<Map<String, dynamic>> maps =
+        await db.query('steps', where: 'taskId = ?', whereArgs: [taskId]);
     return List.generate(maps.length, (i) => StepModel.fromMap(maps[i]));
   }
 
-  // Update car status based on tasks
-  Future<void> _updateCarStatusBasedOnTasks(int carId) async {
+  Future<int> insertReminder(Reminder reminder) async {
     final db = await database;
-    final tasks = await db.query('tasks', where: 'carId = ?', whereArgs: [carId]);
-
-    bool allCompleted = true;
-    bool hasDueTasks = false;
-
-    for (var task in tasks) {
-      if (task['status'] == 'due') {
-        hasDueTasks = true;
-        break;
-      } else if (task['status'] != 'completed') {
-        allCompleted = false;
-      }
-    }
-    String newStatus;
-    if (hasDueTasks) {
-      newStatus = 'due';
-    } else if (allCompleted) {
-      newStatus = 'completed';
-    } else {
-      newStatus = 'in_progress';
-    }
-
-    await db.update(
-      'cars',
-      {'status': newStatus},
-      where: 'id = ?',
-      whereArgs: [carId],
-    );
+    return await db.insert('reminders', reminder.toMap());
   }
 
-  // Method to update the completion status of a step
-Future<void> updateStepCompletion(int stepId, bool completed) async {
-  final db = await database;
-  await db.update(
-    'steps', // Ensure 'steps' table is correctly created
-    {'completed': completed ? 1 : 0}, // SQLite stores booleans as integers (1 or 0)
-    where: 'id = ?',
-    whereArgs: [stepId],
-  );
-}
+  Future<List<Reminder>> getAllReminders() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('reminders');
+    return List.generate(maps.length, (i) {
+      return Reminder.fromMap(maps[i]);
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> getAllRemindersWithCarInfo(
+      Database db) async {
+    final List<Map<String, dynamic>> results = await db.rawQuery('''
+    SELECT 
+      reminders.id AS reminderId,
+      reminders.taskName,
+      reminders.reminderDate,
+      reminders.reminderMileage,
+      cars.name AS carName,
+      cars.currentMileage AS carCurrentMileage,
+      cars.make AS carMake,
+      cars.model AS carModel,
+      cars.year AS carYear
+    FROM reminders
+    JOIN cars ON reminders.carId = cars.id
+  ''');
+
+    return results
+        .map((reminder) => {
+              'reminderId': reminder['reminderId'],
+              'taskName': reminder['taskName'],
+              'reminderDate': reminder['reminderDate'],
+              'reminderMileage': reminder['reminderMileage'],
+              'carName': reminder['carName'],
+              'carCurrentMileage': reminder['carCurrentMileage'],
+              'carMake': reminder['carMake'],
+              'carModel': reminder['carModel'],
+              'carYear': reminder['carYear'],
+            })
+        .toList();
+  }
 }

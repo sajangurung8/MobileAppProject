@@ -1,38 +1,35 @@
 import 'package:car_care_log_app/view/navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:car_care_log_app/viewmodel/reminder_view_model.dart';
 
 class ReminderScreen extends StatelessWidget {
-  const ReminderScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Reminder'),
+    return ChangeNotifierProvider(
+      create: (_) => ReminderViewModel()..fetchAllReminders(),
+      child: Consumer<ReminderViewModel>(
+        builder: (context, viewModel, child) {
+          return Scaffold(
+            appBar: AppBar(title: Text('All Reminders')),
+            body: viewModel.reminders.isEmpty ?  
+            Center(child: Text('No reminders yet'))
+            :
+            ListView.builder(
+              itemCount: viewModel.reminders.length,
+              itemBuilder: (context, index) {
+                final reminder = viewModel.reminders[index];
+                return ListTile(
+                  title: Text('Task: ${reminder.taskName}'),
+                  subtitle: Text('Due after ${reminder.reminderMileage - reminder.carCurrentMileage} miles or on ${reminder.reminderDate}'),
+                  trailing: Text('${reminder.carName}: ${reminder.carYear} ${reminder.carModel}'),
+                );
+              },
+            ),
+            bottomNavigationBar: const AppBottomNavigationBar(selectedIndex: 0),
+          );
+        },
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              'Reminder Page',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20), // Space between title and reminders
-            Text(
-              '• Oil change after 10,000 miles',
-              style: TextStyle(fontSize: 18),
-            ),
-            Text(
-              '• Tire change in 50,000 miles',
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: const AppBottomNavigationBar(selectedIndex: 1),
     );
   }
 }

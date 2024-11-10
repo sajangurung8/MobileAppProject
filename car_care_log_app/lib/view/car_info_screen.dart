@@ -1,5 +1,5 @@
 // lib/views/car_info_screen.dart
-import 'package:car_care_log_app/model/car_model.dart';
+import 'package:car_care_log_app/model/task.dart';
 import 'package:car_care_log_app/view/add_task_screen.dart';
 import 'package:car_care_log_app/view/task_info_screen.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class CarInfoScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${car.name} Information'),
+        title: Text('Car Information'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -39,17 +39,12 @@ class CarInfoScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Mileage: ${car.currentMileage} miles',
+              '${car.year} ${car.make} ${car.model}',
               style: const TextStyle(fontSize: 18),
             ),
-            const SizedBox(height: 16),
             Text(
-              'Status: ${car.status}',
-              style: TextStyle(
-                fontSize: 18,
-                color: _getStatusColor(car.status),
-                fontWeight: FontWeight.bold,
-              ),
+              'Odometer reading: ${car.currentMileage} miles',
+              style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 16),
             const Divider(),
@@ -81,7 +76,7 @@ class CarInfoScreen extends StatelessWidget {
                       final task = tasks[index];
                       return ListTile(
                         title: Text(task.taskName),
-                        subtitle: Text('Status: ${task.status}'),
+                        //subtitle: Text('Status: ${task.status}'),
                         trailing: const Icon(Icons.arrow_forward_ios),
                         onTap: () {
                           Navigator.push(
