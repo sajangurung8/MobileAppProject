@@ -34,6 +34,7 @@ class Reminder {
       'carMake': carMake,
       'carYear': carYear,
       'taskName': taskName,
+      'carCurrentMileage': carCurrentMileage
     };
   }
 

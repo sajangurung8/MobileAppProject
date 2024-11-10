@@ -291,12 +291,15 @@ class _TaskInfoScreenState extends State<TaskInfoScreen>
           actions: [
             TextButton(
               onPressed: () {
+                var car = carViewModel.getCarById(currentTask!.carId);
                 final reminder = Reminder(
-                  carName: carViewModel.getCarById(currentTask!.carId)!.name,
-                  carYear: carViewModel.getCarById(currentTask!.carId)!.year,
-                  carModel: carViewModel.getCarById(currentTask!.carId)!.model,
+                  carName: car!.name,
+                  carYear: car!.year,
+                  carModel: car!.model,
+                  carMake: car.make,
+                  carId: car.id,
                   carCurrentMileage: carViewModel
-                      .getCarById(currentTask!.carId)!
+                      .getCarById(currentTask.carId)!
                       .currentMileage,
                   taskName: currentTask.taskName,
                   reminderDate: dateController.text,

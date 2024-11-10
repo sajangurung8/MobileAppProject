@@ -70,6 +70,7 @@ class DatabaseService {
             carMake TEXT,
             carModel TEXT,
             carYear INTEGER,
+            carCurrentMileage INTEGER,
             taskName TEXT,
             reminderDate TEXT,  -- Store as TEXT to handle SQLite date format
             reminderMileage INTEGER,

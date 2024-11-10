@@ -21,7 +21,7 @@ class ReminderScreen extends StatelessWidget {
                 final reminder = viewModel.reminders[index];
                 return ListTile(
                   title: Text('Task: ${reminder.taskName}'),
-                  subtitle: Text('Due after ${reminder.reminderMileage - reminder.carCurrentMileage} or on ${reminder.reminderDate}'),
+                  subtitle: Text('Due after ${reminder.reminderMileage - reminder.carCurrentMileage} miles or on ${reminder.reminderDate}'),
                   trailing: Text('${reminder.carName}: ${reminder.carYear} ${reminder.carModel}'),
                 );
               },

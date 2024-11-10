@@ -76,7 +76,7 @@ class CarInfoScreen extends StatelessWidget {
                       final task = tasks[index];
                       return ListTile(
                         title: Text(task.taskName),
-                        subtitle: Text('Status: ${task.status}'),
+                        //subtitle: Text('Status: ${task.status}'),
                         trailing: const Icon(Icons.arrow_forward_ios),
                         onTap: () {
                           Navigator.push(
