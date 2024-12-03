@@ -153,7 +153,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen>
 
                       // Ensure currentStep is within bounds
                       if (currentStep >= steps.length) {
-                        currentStep = steps.length - 1; 
+                        currentStep = steps.length - 1;
                       }
                       return Stepper(
                         currentStep: currentStep,
@@ -174,6 +174,12 @@ class _TaskInfoScreenState extends State<TaskInfoScreen>
                             (BuildContext context, ControlsDetails details) {
                           return Row(
                             children: <Widget>[
+                              if (currentStep >
+                                  0) // Show 'Previous' button if not on the first step
+                                ElevatedButton(
+                                  onPressed: details.onStepCancel,
+                                  child: const Text('Previous'),
+                                ),
                               if (currentStep < steps.length - 1)
                                 ElevatedButton(
                                   onPressed: details.onStepContinue,
@@ -307,7 +313,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen>
                 );
                 reminderViewModel.addReminder(reminder);
 
-                Navigator.of(context).pop(); 
+                Navigator.of(context).pop();
 
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
