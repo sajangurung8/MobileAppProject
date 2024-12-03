@@ -72,4 +72,9 @@ class CarViewModel extends ChangeNotifier {
 
     await _databaseService.updateCarStatus(carId, newStatus);
   }
+
+  Future<void> updateCarMileage(int carId, int newMileage) async {
+    await _databaseService.updateCarMileage(carId, newMileage);
+    notifyListeners();
+  }
 }

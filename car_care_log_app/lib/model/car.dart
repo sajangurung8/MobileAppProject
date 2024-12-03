@@ -1,8 +1,10 @@
 // lib/models/car_model.dart
-class CarModel {
+import 'package:flutter/material.dart';
+
+class CarModel with ChangeNotifier{
   final int? id;
   final String name;
-  final int currentMileage;
+  int currentMileage;
   final String model;
   final String make;
   final int year;

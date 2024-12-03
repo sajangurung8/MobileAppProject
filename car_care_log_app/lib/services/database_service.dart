@@ -217,4 +217,14 @@ class DatabaseService {
             })
         .toList();
   }
+
+  Future<void> updateCarMileage(int carId, int newMileage) async {
+    final db = await database;
+    await db.update(
+      'cars',
+      {'currentMileage': newMileage},
+      where: 'id = ?',
+      whereArgs: [carId],
+    );
+  }
 }
