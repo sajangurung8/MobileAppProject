@@ -1,11 +1,13 @@
 // lib/view_models/car_view_model.dart
 import 'package:car_care_log_app/model/car.dart';
 import 'package:car_care_log_app/model/task.dart';
+import 'package:car_care_log_app/services/reminder_scheduler.dart';
 import 'package:flutter/material.dart';
 import '../services/database_service.dart';
 
 class CarViewModel extends ChangeNotifier {
   final DatabaseService _databaseService = DatabaseService();
+  final ReminderScheduler _reminderScheduler = ReminderScheduler();
   List<CarModel> cars = [];
 
   Future<void> loadCars() async {
@@ -34,7 +36,7 @@ class CarViewModel extends ChangeNotifier {
 
   Future<void> addTask(TaskModel task) async {
     await _databaseService.insertTask(task);
-    notifyListeners(); // Notify listeners if you want to update UI
+    notifyListeners(); // Notify listeners to update UI
   }
 
   Future<List<TaskModel>> getTasksByCarId(int carId) async {
@@ -45,7 +47,9 @@ class CarViewModel extends ChangeNotifier {
   Future<void> updateTaskStatus(int taskId, String newStatus) async {
     await _databaseService.updateTaskStatus(taskId, newStatus);
     final task = await _databaseService.getTaskById(taskId);
-    await _updateCarStatus(task.carId);
+    if (task != null) {
+      await _updateCarStatus(task.carId);
+    }
     notifyListeners();
   }
 
@@ -71,5 +75,19 @@ class CarViewModel extends ChangeNotifier {
     }
 
     await _databaseService.updateCarStatus(carId, newStatus);
+  }
+
+  Future<void> updateCarMileage(int carId, int newMileage) async {
+    await _databaseService.updateCarMileage(carId, newMileage);
+    notifyListeners();
+  }
+
+  // Trigger manual reminder checks
+  Future<void> checkReminders() async {
+    try {
+      await _reminderScheduler.triggerManualReminderCheck(this);
+    } catch (e) {
+      print('Error during manual reminder check: $e');
+    }
   }
 }

@@ -5,6 +5,7 @@ import 'package:car_care_log_app/model/task.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../model/car.dart';
+import 'dart:convert';
 
 class DatabaseService {
   static final DatabaseService _instance = DatabaseService._internal();
@@ -158,19 +159,24 @@ class DatabaseService {
         where: 'id = ?', whereArgs: [taskId]);
   }
 
-  // Insert a step
+  // Insert a step with Base64 encoding for the description
   Future<void> insertStep(StepModel step, int taskId) async {
     final db = await database;
-    await db.insert('steps', step.toMap(taskId),
-        conflictAlgorithm: ConflictAlgorithm.ignore);
+    final stepMap = step.toMap(taskId);
+    stepMap['description'] = _encodeString(stepMap['description']);
+    await db.insert('steps', stepMap, conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
-  // Fetch steps by task ID
+  // Fetch steps by task ID and decode Base64 for the description
   Future<List<StepModel>> getStepsForTask(int taskId) async {
     final db = await database;
     final List<Map<String, dynamic>> maps =
         await db.query('steps', where: 'taskId = ?', whereArgs: [taskId]);
-    return List.generate(maps.length, (i) => StepModel.fromMap(maps[i]));
+    return List.generate(maps.length, (i) {
+      final map = maps[i];
+      map['description'] = _decodeString(map['description']);
+      return StepModel.fromMap(map);
+    });
   }
 
   Future<int> insertReminder(Reminder reminder) async {
@@ -216,5 +222,27 @@ class DatabaseService {
               'carYear': reminder['carYear'],
             })
         .toList();
+  }
+
+  Future<void> updateCarMileage(int carId, int newMileage) async {
+    final db = await database;
+    await db.update(
+      'cars',
+      {'currentMileage': newMileage},
+      where: 'id = ?',
+      whereArgs: [carId],
+    );
+  }
+
+  /// Helper method to encode a string in Base64
+  String? _encodeString(String? value) {
+    if (value == null) return null;
+    return base64Encode(utf8.encode(value));
+  }
+
+  /// Helper method to decode a Base64 string
+  String? _decodeString(String? value) {
+    if (value == null) return null;
+    return utf8.decode(base64Decode(value));
   }
 }
