@@ -1,4 +1,6 @@
 // lib/main.dart
+import 'package:car_care_log_app/services/reminder_scheduler.dart';
+import 'package:car_care_log_app/services/reminder_service.dart';
 import 'package:car_care_log_app/view/add_car_screen.dart';
 import 'package:car_care_log_app/view/add_task_screen.dart';
 import 'package:car_care_log_app/view/car_info_screen.dart';
@@ -17,7 +19,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => CarViewModel()..loadCars()),
         ChangeNotifierProvider(create: (context) => TaskViewModel()),
-        ChangeNotifierProvider(create: (_) => ReminderViewModel())
+        ChangeNotifierProvider(create: (_) => ReminderViewModel()),
+        Provider(create: (_) => ReminderScheduler()..start(),),
       ],
       child: MyApp(),
     ),

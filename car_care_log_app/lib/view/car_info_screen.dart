@@ -1,3 +1,4 @@
+import 'package:car_care_log_app/view/add_task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/car_view_model.dart';
@@ -95,6 +96,27 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
                 },
               ),
             ),
+            Center(
+              child: ElevatedButton(
+                  onPressed: () {
+                    // Navigate to Add Task Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddTaskScreen(carId: widget.carId),
+                      ),
+                    ).then((_) {
+                      // Optionally refresh the tasks when returning from the AddTaskScreen
+                      Provider.of<CarViewModel>(context, listen: false)
+                          .loadCars();
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.green, // Set the text color
+                  ),
+                  child: Text('Add New Task')),
+            ),
           ],
         ),
       ),
@@ -124,6 +146,8 @@ class _CarInfoScreenState extends State<CarInfoScreen> {
               if (newMileage != null && newMileage >= currentMileage) {
                 setState(() {
                   currentMileage = newMileage;
+                  //carViewModel.checkReminders(carViewModel);
+                  carViewModel.checkReminders();
                 });
                 carViewModel.updateCarMileage(carId, newMileage);
                 Navigator.of(context).pop();
